@@ -1,4 +1,24 @@
+var _ = require('lodash');
+var ig = require('instagram-node').instagram();
+
 module.exports = {
+
+    /**
+     * Set acess token.
+     *
+     * @param dexter
+     */
+    authParams: function (dexter) {
+
+        if (dexter.environment('instagram_access_token')) {
+
+            ig.use({access_token: dexter.environment('instagram_access_token')});
+        } else {
+
+            this.fail('A [instagram_access_token] environment is Required.');
+        }
+    },
+
     /**
      * The main entry point for the Dexter module
      *
@@ -6,8 +26,25 @@ module.exports = {
      * @param {AppData} dexter Container for all data used in this workflow.
      */
     run: function(step, dexter) {
-        var results = { foo: 'bar' };
-        //Call this.complete with the module's output.  If there's an error, call this.fail(message) instead.
-        this.complete(results);
+
+        var mediaId = step.input('mediaId').first();
+
+        if (!mediaId) {
+
+            this.fail('A [mediaId] is Required.');
+        }
+
+        this.authParams(dexter);
+
+        ig.del_like(mediaId, function (err) {
+
+            if (err) {
+
+                this.fail(err);
+            } else {
+
+                this.complete({success: true});
+            }
+        }.bind(this));
     }
 };
