@@ -16,5 +16,6 @@
             "title":"Success"
         }
     ],
+    "icon": "instagram",
     "title": "Instagram Unlike Media" /* Required.A display name for the module */
 }
