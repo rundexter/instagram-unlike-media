@@ -16,6 +16,10 @@
             "title":"Success"
         }
     ],
+    "providers": [{
+        "name": "instagram",
+        "scopes": [ "basic", "likes" ]
+    }],
     "icon": "instagram",
     "title": "Instagram Unlike Media" /* Required.A display name for the module */
 }
